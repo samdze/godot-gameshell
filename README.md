@@ -9,7 +9,7 @@ Godot 3.2.3 export templates and instructions for the GameShell portable game co
 
 0. Make sure you have at least 5 or 6 GB of free space on the sd.
 
-1. SSH into your GameShell, the launcher app **Tiny Cloud** shows the ip address and password you have to type in order to get access.
+1. SSH into your GameShell, the launcher app **Tiny Cloud** shows the ip address and the default password you have to type in order to get access.
 
 2. Update your GameShell and install Godot dependencies.
     ```
@@ -24,6 +24,7 @@ It's a fork with a few code fixes. It's preferred to only get the latest commit 
     git clone --depth 1 -b 3.2.3-gameshell https://github.com/samdze/godot.git
     cd godot
     ```
+    My fixes have been merged upstream starting from the Godot 3.2.4 release, so you'll hopefully be able to directly clone and build the official repository in the future.
 
 4. Optional: create a swap file, it may be needed during the linking stage. This is temporary, it will be disabled after reboot.
     ```
