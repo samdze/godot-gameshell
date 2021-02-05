@@ -1,6 +1,11 @@
 # Godot for GameShell
 Godot 3.2.3 export templates and instructions for the GameShell portable game console.
 
+
+**Export templates download link:**
+
+https://github.com/samdze/godot-gameshell/releases/download/3.2.3-stable/godot-3.2.3-gameshell-templates.zip
+
 ## How to make Godot games work
 
 Coming soon...
