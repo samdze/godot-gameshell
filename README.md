@@ -13,7 +13,43 @@ https://github.com/samdze/godot-gameshell/releases/download/3.2.3-stable/godot-3
 
 ## How to make Godot games work
 
-Coming soon...
+Your Godot game will probably not work out of the box on the GameShell, a few tweaks are usually needed.
+Here are listed the details you should be aware of and the guidelines to follow to have your game up and running!
+
+1. Create a new export preset, call it GameShell or however you like.
+    Disable the `64 Bits` option and select the custom templates you can download from this repository. The zip contains two files, `godot.x11.debug.32` is the debug build and `godot.x11.opt.32` is te release one.
+    If you don't plan to release the game on the GameShell exclusively, it is a good idea to create a custom feature for it.
+    <p align="middle">
+    <img src="https://i.imgur.com/cwTHUd6.png" />
+    
+    <img src="https://i.imgur.com/m60t30z.png" />
+    </p>
+2. Change your project settings. You can override values for the GameShell only if you select the label of a property and click on `Override For...` in the top right corner of the popup window, then select the feature you created earlier. A new property named `<property_name>.<feature_name>` will appear.
+
+    - Project Settings > Display > Window: set the window width and heigth to 320x240. This is the GameShell screen resolution. Also set te alwayt on top option.
+        <p align="center">
+        <img src="https://i.imgur.com/IZxbjWs.png" />
+        </p>
+        Set the aspect and the mode too. `keep_width` and `2d` usually work best, but it may depend on the game you're making.
+        <p align="center">
+        <img src="https://i.imgur.com/PNohbKb.png" />
+        </p>
+    - Project Settings > Rendering > Quality: the GameShell supports GLES2 only. Change the driver name.
+        <p align="center">
+        <img src="https://i.imgur.com/tYzi5qL.png" />
+        </p>
+        It's recommended to change the framebuffer allocation to `2D Without Sampling`, but you can try setting it to `2D` if you need.
+        <p align="center">
+        <img src="https://i.imgur.com/zI8uhK2.png" />
+        </p>
+3. One of the GameShell conventions is that when you press the `MENU` button, you exit the app or game you're currently in.
+The `MENU` button is mapped to the escape key, so just create a new action `ui_escape` in the `Input Map` settings that activates with the escape key and add this snippet somewhere in your code, where it is always running:
+    ```gdscript
+    if OS.has_feature("GameShell") and Input.is_action_pressed("ui_escape"):
+        get_tree().quit()
+    ```
+    Remove the feature check if you didn't create one.
+4. Add the game into your GameShell. Coming soon.
 
 ## Compile Godot 3.2.3 manually
 
