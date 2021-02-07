@@ -1,15 +1,15 @@
 # Godot for GameShell
+Godot 3.2.3 export templates and instructions for the GameShell portable game console.
+
 <p align="center">
     <img src="/gameshell-godot.png" />
 </p>
 
 
-Godot 3.2.3 export templates and instructions for the GameShell portable game console.
-
 
 **Export templates download link:**
 
-https://github.com/samdze/godot-gameshell/releases/download/3.2.3-stable/godot-3.2.3-gameshell-templates.zip
+3.2.3: https://github.com/samdze/godot-gameshell/releases/download/3.2.3-stable/godot-3.2.3-gameshell-templates.zip
 
 ## How to make Godot games work
 
@@ -26,10 +26,11 @@ Here are listed the details you should be aware of and the guidelines to follow 
     </p>
 2. Change your project settings. You can override values for the GameShell only if you select the label of a property and click on `Override For...` in the top right corner of the popup window, then select the feature you created earlier. A new property named `<property_name>.<feature_name>` will appear.
 
-    - Project Settings > Display > Window: set the window width and heigth to 320x240. This is the GameShell screen resolution. Also set te alwayt on top option.
+    - Project Settings > Display > Window: set the window width and heigth to 320x240. This is the GameShell screen resolution. Also set the always on top option.
         <p align="center">
         <img src="https://i.imgur.com/IZxbjWs.png" />
         </p>
+        
         Set the aspect and the mode too. `keep_width` and `2d` usually work best, but it may depend on the game you're making.
         <p align="center">
         <img src="https://i.imgur.com/PNohbKb.png" />
@@ -38,6 +39,7 @@ Here are listed the details you should be aware of and the guidelines to follow 
         <p align="center">
         <img src="https://i.imgur.com/tYzi5qL.png" />
         </p>
+        
         It's recommended to change the framebuffer allocation to `2D Without Sampling`, but you can try setting it to `2D` if you need.
         <p align="center">
         <img src="https://i.imgur.com/zI8uhK2.png" />
@@ -49,7 +51,23 @@ The `MENU` button is mapped to the escape key, so just create a new action `ui_e
         get_tree().quit()
     ```
     Remove the feature check if you didn't create one.
-4. Add the game into your GameShell. Coming soon.
+4. The inputs need to be remapped. This is the GameShell keypad mapping:
+    <p align="center">
+    <img src="https://raw.githubusercontent.com/clockworkpi/Keypad/master/keymaps.png" />
+    </p>
+    
+    One way you can do it is by adding a similar piece of code inside an initialization function:
+    ```gdscript
+    if OS.has_feature("GameShell"):
+        InputMap.action_erase_events("ui_accept")   # Erase the previous mapping.
+        var ev = InputEventKey.new()                # Create a new event that will activate the action.
+        ev.pressed = true                           # Action activates on key pressed.
+        ev.scancode = KEY_K                         # The key to press is K, which is the B button.
+        InputMap.action_add_event("ui_accept", ev)  # Add the action back into the InputMap.
+        ... # Repeat for each action you want to remap.
+    ```
+
+5. Add the game into your GameShell. Coming soon.
 
 ## Compile Godot 3.2.3 manually
 
