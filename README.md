@@ -13,11 +13,13 @@ Godot 3.2.3 export templates and instructions for the GameShell portable game co
 
 ## How to make Godot games work
 
+Clockwork OS v0.5 is required. Lima drivers are recommended for best performance.
+
 Your Godot game will probably not work out of the box on the GameShell, a few tweaks are usually needed.
 Here are listed the details you should be aware of and the guidelines to follow to have your game up and running!
 
 1. Create a new export preset, call it GameShell or however you like.
-    Disable the `64 Bits` option and select the custom templates you can download from this repository. The zip contains two files, `godot.x11.debug.32` is the debug build and `godot.x11.opt.32` is te release one.
+    Disable the `64 Bits` option and fill the custom template fields with the contents of the file you can download from this repository. The zip contains two files, `godot.x11.debug.32` is the debug build and `godot.x11.opt.32` is the release one.
     If you don't plan to release the game on the GameShell exclusively, it is a good idea to create a custom feature for it.
     <p align="middle">
     <img src="https://i.imgur.com/cwTHUd6.png" />
@@ -26,7 +28,7 @@ Here are listed the details you should be aware of and the guidelines to follow 
     </p>
 2. Change your project settings. You can override values for the GameShell only if you select the label of a property and click on `Override For...` in the top right corner of the popup window, then select the feature you created earlier. A new property named `<property_name>.<feature_name>` will appear.
 
-    - Project Settings > Display > Window: set the window width and heigth to 320x240. This is the GameShell screen resolution. Also set the always on top option.
+    - Project Settings > Display > Window: set the window width and height to 320x240. This is the GameShell screen resolution. Also set the always on top option.
         <p align="center">
         <img src="https://i.imgur.com/IZxbjWs.png" />
         </p>
@@ -67,11 +69,56 @@ The `MENU` button is mapped to the escape key, so just create a new action `ui_e
         ... # Repeat for each action you want to remap.
     ```
 
-5. Add the game into your GameShell. Coming soon.
+5. Export your project.
+    
+    Select the GameShell preset and click on `Export Project`, make sure to disable the `Export With Debug` option.
+
+6. Add the game into your GameShell.
+
+    There are a few ways you can do this.
+    The simpler one is to connect to your GameShell's file system through network share, the needed ips are listed in **Tiny Cloud** under "For Windows network".
+
+    Your OS should be capable of mapping a network drive using those ips. Choose the one for games (`~/games/`).
+    Add your game (executable + .pck files) inside a new `GameName` folder.
+    
+    Alternatively you can transfer your files with SCP using the command line.
+
+    The game needs to have execute permission, SSH into your GameShell:
+    ```
+    cd ~/games/GameName/
+    sudo chmod +x *
+    ```
+    From the GameShell, you can then open the Bean file browser, navigate to `/home/cpi/games/GameName`, highlight the game executable, press MENU and choose `Execute`. That's it!
+7. Add a launcher entry.
+
+    It is generally preferable to have a shortcut to your game directly in the launcher.
+    To do that, SSH into your GameShell and create a new script file inside the `~/apps/Menu/GameShell` directory.
+    ```
+    cd ~/apps/Menu/GameShell
+    nano GameName.sh
+    ```
+    The contents of this file should be:
+    ```
+    #!/bin/bash
+    ~/games/GameName/ExecutableName
+    ```
+    Add execute permission:
+    ```
+    sudo chmod +x GameName.sh
+    ```
+    The GameShell launcher uses the directory structure and the executable scripts inside `~/apps/Menu/GameShell` to generate its entries each time the launcher is reloaded, so feel free to add your entries wherever you like.
+    
+    Reload the UI or reboot your GameShell and you should be good to go!
+
+8. Set a custom icon for your launcher entry.
+
+    To assign a custom icon to your game, by default you'll have to add a new image file in the directory structure under `~/launcher/skin/default/Menu/GameShell`, in the same location and using the same name of the script you created earlier.
+    
+    In case you changed your default launcher, the same procedure should apply changing the base directory to the appropriate one.
 
 ## Compile Godot 3.2.3 manually
 
-0. Make sure you have installed Clockwork OS v0.5 and have at least 5 or 6 GB of free space on the sd.
+0. Make sure you have Clockwork OS v0.5 installed and have at least 5 or 6 GB of free space on the sd.
 
 1. SSH into your GameShell, the launcher app **Tiny Cloud** shows the ip address and the default password you have to type in order to get access.
 
@@ -83,22 +130,14 @@ The `MENU` button is mapped to the escape key, so just create a new action `ui_e
     ```
 
 3. Clone my Godot 3.2.3-gameshell repository branch and change your working directory.
-It's a fork with a few code fixes. It's preferred to only get the latest commit not to occupy too much disk space.
+It's a fork with a few code fixes. It's preferred to only get the latest commit to occupy less disk space.
     ```
     git clone --depth 1 -b 3.2.3-gameshell https://github.com/samdze/godot.git
     cd godot
     ```
     My fixes have been merged upstream starting from the Godot 3.2.4 release, so you'll hopefully be able to directly clone and build the official repository in the future.
 
-4. Optional: create a swap file, it may be needed during the linking stage, especially if you're compiling a release build. This is temporary, it will be disabled after reboot.
-    ```
-    sudo fallocate -l 3G /swap
-    sudo chmod 600 /swap
-    sudo mkswap /swap
-    sudo swapon /swap
-    ```
-
-5. Configure SCons to use Python 3.5, as it enables to build in a concurrent manner.
+4. Configure SCons to use Python 3.5, as it enables to build in a concurrent manner.
     Change the first line of the `/usr/bin/scons` file to:
     ```
     #! /usr/bin/python3.5
@@ -109,6 +148,14 @@ It's a fork with a few code fixes. It's preferred to only get the latest commit 
     ```
     Make the change, then press Ctrl+S and finally Ctrl+X.
 
+5. Optional (recommended): create a swap file, it may be needed during the linking stage, especially if you're compiling a release build. This is temporary, it will be disabled after reboot. You could get errors if you skip this step, come back here if it happens.
+    ```
+    sudo fallocate -l 3G /swap
+    sudo chmod 600 /swap
+    sudo mkswap /swap
+    sudo swapon /swap
+    ```
+
 6. Compile Godot. This is a scons configuration that tries to exclude everything related to 3D as it was found to be non-functional during my tests.
     - Debug:
     ```
@@ -118,11 +165,12 @@ It's a fork with a few code fixes. It's preferred to only get the latest commit 
     ```
     scons platform=x11 -j3 tools=no target=release debug_symbols=no bits=32 use_lto=yes module_webm_enabled=no module_bullet_enabled=no module_csg_enabled=no module_camera_enabled=no module_arkit_enabled=no module_gridmap_enabled=no module_mobile_vr_enabled=no module_vhacd_enabled=no module_xatlas_enabled=no module_cvtt_enabled=no module_assimp_enabled=no disable_3d=yes
     ```
-    You could get this error during linking:
+    You could get errors like this during the linking or compilation phases:
       `collect2: fatal error: ld terminated with signal 9 [Killed]`
       Make sure to have enough free space on the sd and to create a large enough swap file to fix it.
 
     The compilation may take a long time, 2+ hours, maybe a bit less if you're compiling a debug build.
+    With LTO enabled, it may take even longer.
     
     The Godot binary files will be placed inside the bin folder, they will be named `godot.x11.debug.32` and `godot.x11.opt.32` for debug and release builds respectively.
     
