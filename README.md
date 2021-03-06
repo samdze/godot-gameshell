@@ -13,6 +13,9 @@ Godot 3.2.3 export templates and instructions for the GameShell portable game co
 
 ## How to make Godot games work
 
+**NOTICE**: there seems to be issues and crashes with the 512 MB of ram version of the GameShell.<br>
+Right now the only supported version is the 1 GB one.
+
 Clockwork OS v0.5 is required. Lima drivers are recommended for best performance.
 
 Your Godot game will probably not work out of the box on the GameShell, a few tweaks are usually needed.
