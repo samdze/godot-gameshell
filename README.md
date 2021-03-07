@@ -105,7 +105,7 @@ The `MENU` button is mapped to the escape key, so just create a new action `ui_e
     #!/bin/bash
     ~/games/GameName/ExecutableName
     ```
-    Add execute permission:
+    **Important**, add execute permission, the launcher may not be able to boot correctly otherwise:
     ```
     sudo chmod +x GameName.sh
     ```
