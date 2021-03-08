@@ -95,9 +95,9 @@ The `MENU` button is mapped to the escape key, so just create a new action `ui_e
 7. Add a launcher entry.
 
     It is generally preferable to have a shortcut to your game directly in the launcher.
-    To do that, SSH into your GameShell and create a new script file inside the `~/apps/Menu/GameShell` directory.
+    To do that, SSH into your GameShell and create a new script file inside the `~/apps/Menu` directory.
     ```
-    cd ~/apps/Menu/GameShell
+    cd ~/apps/Menu
     nano GameName.sh
     ```
     The contents of this file should be:
