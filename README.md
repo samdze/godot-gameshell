@@ -109,7 +109,7 @@ The `MENU` button is mapped to the escape key, so just create a new action `ui_e
     ```
     sudo chmod +x GameName.sh
     ```
-    The GameShell launcher uses the directory structure and the executable scripts inside `~/apps/Menu/GameShell` to generate its entries each time the launcher is reloaded, so feel free to add your entries wherever you like.
+    The GameShell launcher uses the directory structure and the executable scripts inside `~/apps/Menu` to generate its entries each time the launcher is reloaded, so feel free to add your entries wherever you like.
     
     Reload the UI or reboot your GameShell and you should be good to go!
 
