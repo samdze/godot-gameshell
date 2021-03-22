@@ -138,7 +138,7 @@ It's a fork with a few code fixes. It's preferred to only get the latest commit 
     git clone --depth 1 -b 3.2.3-gameshell https://github.com/samdze/godot.git
     cd godot
     ```
-    My fixes have been merged upstream starting from the Godot 3.2.4 release, so you'll hopefully be able to directly clone and build the official repository in the future.
+    My fixes have been merged upstream starting from the Godot 3.3 release, so you'll hopefully be able to directly clone and build the official repository in the future.
 
 4. Configure SCons to use Python 3.5, as it enables to build in a concurrent manner.
     Change the first line of the `/usr/bin/scons` file to:
