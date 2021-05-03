@@ -1,5 +1,5 @@
-# Godot for GameShell
-Godot 3.2.3 export templates and instructions for the GameShell portable game console.
+# Godot for GameShell and other single-board computers
+Godot export templates and instructions for the GameShell portable game console and other single-board computers.
 
 <p align="center">
     <img src="/gameshell-godot.png" />
@@ -9,9 +9,18 @@ Godot 3.2.3 export templates and instructions for the GameShell portable game co
 
 **Export templates download link:**
 
-3.2.3: https://github.com/samdze/godot-gameshell/releases/download/3.2.3-stable/godot-3.2.3-gameshell-templates.zip
+2D only, no webm:
+| Version | Templates |
+| --- | --------- |
+| 3.2.3 | https://github.com/samdze/godot-gameshell/releases/download/3.2.3-stable/godot-3.2.3-gameshell-templates.zip |
+| 3.3 | https://github.com/samdze/godot-gameshell/releases/download/3.3-stable/godot-3.3-single-board-gameshell-templates.zip |
 
-## How to make Godot games work
+Tested on:
+- GameShell
+- Orange Pi
+- Raspberry Pi
+
+## How to make Godot games work on the GameShell
 
 **NOTICE**: there seems to be issues and crashes with the 512 MB of ram version of the GameShell using the lima driver.<br>
 Fbturbo seems to work fine even if with lower performance.
@@ -119,7 +128,8 @@ The `MENU` button is mapped to the escape key, so just create a new action `ui_e
     
     In case you changed your default launcher, the same procedure should apply changing the base directory to the appropriate one.
 
-## Compile Godot 3.2.3 manually
+## Compile Godot manually
+**Works on GameShell, but a similar procedure is valid on other single-board computers too.**
 
 0. Make sure you have Clockwork OS v0.5 installed and have at least 5 or 6 GB of free space on the sd.
 
@@ -133,12 +143,14 @@ The `MENU` button is mapped to the escape key, so just create a new action `ui_e
     ```
 
 3. Clone my Godot 3.2.3-gameshell repository branch and change your working directory.
+Clone Godot 3.3 from the Godot repository itself if you want to compile Godot 3.3.
 It's a fork with a few code fixes. It's preferred to only get the latest commit to occupy less disk space.
     ```
     git clone --depth 1 -b 3.2.3-gameshell https://github.com/samdze/godot.git
+    (or git clone --depth 1 -b 3.3-stable https://github.com/godotengine/godot.git)
     cd godot
     ```
-    My fixes have been merged upstream starting from the Godot 3.3 release, so you'll hopefully be able to directly clone and build the official repository in the future.
+    My fixes have been merged upstream starting from the Godot 3.3 release, so you can directly clone and build the official repository starting from it.
 
 4. Configure SCons to use Python 3.5, as it enables to build in a concurrent manner.
     Change the first line of the `/usr/bin/scons` file to:
