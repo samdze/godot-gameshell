@@ -14,6 +14,7 @@ Godot export templates and instructions for the GameShell portable game console 
 | --- | --------- |
 | 3.2.3 | https://github.com/samdze/godot-gameshell/releases/download/3.2.3-stable/godot-3.2.3-gameshell-templates.zip |
 | 3.3 | https://github.com/samdze/godot-gameshell/releases/download/3.3-stable/godot-3.3-single-board-gameshell-templates.zip |
+| 3.4.4 | https://github.com/samdze/godot-gameshell/releases/download/3.4.4-stable/godot-3.4.4-single-board-gameshell-templates.zip |
 
 Tested on:
 - GameShell
